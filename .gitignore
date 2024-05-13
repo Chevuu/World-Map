@@ -1,1 +1,1 @@
-includes/main/database.class.inc.php
+config/database.php
