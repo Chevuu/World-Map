@@ -1,0 +1,394 @@
+html,
+body {
+  font: normal 1em "Open Sans", Verdana, Geneva, sans-serif, sans-serif;
+  color: #3c3c3c;
+  padding: 0px;
+  margin: 0px;
+}
+p {
+  line-height: 1.6em;
+}
+
+.esri-view-height-less-than-medium .esri-popup__main-container {
+  max-height: 400px !important;
+}
+
+.iframeContainer {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+}
+
+.iframeContainer iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+input[type="text"],
+input[type="url"],
+textarea {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 0px;
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.6),
+    inset 0 0 3px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 35px;
+  padding: 5px 8px;
+  vertical-align: top;
+  -webkit-font-smoothing: antialiased;
+  border-radius: 3px;
+  resize: none;
+  color: #333;
+  font-size: 1rem;
+  font-family: "Open Sans", sans-serif;
+}
+
+input[type="button"],
+input[type="submit"] {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  color: #333;
+  display: inline-block;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 7px 18px;
+  text-decoration: none;
+  background-clip: padding-box;
+  font-size: 0.8125em;
+}
+
+#TUD_new {
+  padding: 0 12px !important;
+  background: #00a6d6 !important;
+  color: white !important;
+  transition: 0.3s !important;
+  border: 1px solid rgba(0, 0, 0, 0) !important;
+  margin-left: -1px !important;
+  margin-right: -1px !important;
+}
+
+#TUD_new:hover,
+#TUD_new:focus{
+  box-shadow: 0px 5px 15px -5px rgba(0, 0, 0, 0.3);
+  background: #00a6d6;
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+
+#TUD_new:active {
+  box-shadow: none;
+  background: #0094bd;
+}
+
+ul.TUD_text_edit li {
+  display: inline-block;
+  padding: 12px 18px;
+  font-size: 11px;
+  font-weight: bold;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  box-sizing: border-box;
+  margin: 0;
+  transition: width 0.3s, height 0.3s;
+  width: 50px;
+  text-align: center;
+}
+
+ul.TUD_text_edit li:hover {
+  transform: translateY(-6px);
+  padding: 12px 18px 18px 18px;
+  margin-bottom: -6px;
+}
+
+ul.TUD_text_edit li.edit {
+  width: 30em;
+  overflow: hidden;
+  margin-bottom: -14px;
+  padding: 0;
+  height: 42px;
+  margin-top: -6px;
+}
+
+ul.TUD_text_edit li.edit:hover {
+  transform: none;
+  margin-bottom: -14px;
+  padding: inherit;
+}
+
+ul.TUD_text_edit li:not(.edit) input,
+ul.TUD_text_edit li.edit i {
+  display: none;
+  opacity: 0;
+}
+
+ul.TUD_text_edit li.edit input,
+ul.TUD_text_edit li:not(.edit) i {
+  display: inline-block !important;
+  opacity: 1;
+}
+
+ul.TUD_text_edit li input {
+  float: left;
+  box-sizing: border-box;
+  height: 42px;
+  margin: 0;
+}
+
+ul.TUD_text_edit li input[type="url"] {
+  display: none;
+  border: none;
+  border-right: 1px solid #cacaca;
+  color: #3a3a3a;
+  background: white;
+  border-radius: 0px !important;
+  width: 80%;
+}
+
+ul.TUD_text_edit li input[type="url"]:hover {
+  box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+input[type="button"] {
+  background: white;
+  text-shadow: none;
+  padding: 0;
+  line-height: 42px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+ul.TUD_text_edit li input[type="button"] {
+  width: 20%;
+  border-radius: 0px;
+  border: none;
+  text-shadow: none;
+}
+
+#TUD_submit,
+#TUD_delete,
+#TUD_edit {
+  padding: 0 12px;
+  background: #00a6d6;
+  color: white;
+  transition: 0.3s;
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+
+#TUD_submit,
+#TUD_delete,
+#TUD_edit,
+#TUD_cancel {
+  margin-left: -1px;
+  margin-right: -1px;
+}
+
+#TUD_submit.disabled {
+  background: #c8c8c8;
+}
+
+#TUD_submit.disabled:hover {
+  background: #c8c8c8;
+  box-shadow: 0px 5px 15px -5px rgba(0, 0, 0, 0.05);
+}
+
+#TUD_submit.disabled:active {
+  background: #b5b5b5;
+}
+
+#TUD_cancel {
+  padding: 0 12px;
+  border: 1px solid #c8c8c8;
+  background: none;
+  transition: 0.3s;
+  font-weight: normal;
+}
+
+input[type="button"]:hover,
+input[type="button"]:focus {
+  background: #00a6d6;
+  color: white;
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+
+#TUD_submit:hover,
+#TUD_delete:hover,
+#TUD_edit:hover,
+#TUD_cancel:hover,
+#TUD_submit:focus,
+#TUD_delete:focus,
+#TUD_edit:focus,
+#TUD_cancel:focus {
+  box-shadow: 0px 5px 15px -5px rgba(0, 0, 0, 0.3);
+  background: #00a6d6;
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+
+#TUD_submit:active,
+#TUD_delete:active,
+#TUD_edit:active,
+#TUD_cancel:active {
+  box-shadow: none;
+  background: #0094bd;
+}
+
+input[type="button"]:active {
+  background: #0094bd;
+}
+
+.TUD_title_box span {
+  margin: 20px 0 0 0;
+  display: block;
+  font-size: 1rem;
+  line-height: 100%;
+  color: #414141;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.TUD_title_box p,
+div.location_check p {
+  margin: 5px 0 5px 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #414141;
+}
+
+input[type="button"]:focus,
+input[type="submit"]:focus {
+  outline: none;
+}
+
+select {
+  background: #fff;
+  border: 1px solid #b2b2b2;
+  border-radius: 0px;
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.6),
+    inset 0 0 3px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font: normal 1em "Open Sans", Verdana, Geneva, sans-serif, sans-serif;
+  height: 35px;
+  padding: 5px 8px;
+  vertical-align: top;
+  -webkit-font-smoothing: antialiased;
+}
+
+ul.TUD_text_edit {
+  float: right;
+  list-style-type: none;
+  margin: 0 0.5em;
+  padding: 0;
+}
+
+input[type="button"]:hover,
+input[type="submit"]:hover,
+ul.TUD_text_edit li:hover {
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  /* z-index: 1030; */
+  display: block;
+  visibility: visible;
+  font-size: 11px;
+  line-height: 1.4;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.tooltip.in {
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+.tooltip.top {
+  margin-top: -3px;
+  padding: 5px 0;
+}
+.tooltip.right {
+  margin-left: 3px;
+  padding: 0 5px;
+}
+.tooltip.bottom {
+  margin-top: 3px;
+  padding: 5px 0;
+}
+.tooltip.left {
+  margin-left: -3px;
+  padding: 0 5px;
+}
+.tooltip-inner {
+  max-width: 200px;
+  padding: 8px;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  background-color: #000000;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.tooltip-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+.tooltip.top .tooltip-arrow {
+  bottom: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000000;
+}
+.tooltip.right .tooltip-arrow {
+  top: 50%;
+  left: 0;
+  margin-top: -5px;
+  border-width: 5px 5px 5px 0;
+  border-right-color: #000000;
+}
+.tooltip.left .tooltip-arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #000000;
+}
+.tooltip.bottom .tooltip-arrow {
+  top: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000000;
+}
+
+#wrong_location p {
+  margin: 0;
+  padding: 7.5px 0;
+}
+
+i.location_check_icon {
+  font-size: 1em;
+  line-height: 2rem;
+  margin-left: 0.5rem;
+}
+
+div.location_check {
+  display: inline-block;
+}
+
+div.location_check p {
+  display: inline-block;
+  line-height: 1.5rem;
+  margin-left: 0.5rem;
+}
