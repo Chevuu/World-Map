@@ -1,7 +1,7 @@
 <?php
 ob_start();
 
-require_once('includes/main/database.class.inc.php');
+require_once('config/database.php');
 $db = new database();
 
 function ip()
@@ -38,7 +38,7 @@ function ubb($input)
 }
 
 ?>
-<link rel="stylesheet" href="includes/style/map.css">
+<link rel="stylesheet" href="assets/css/map.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 

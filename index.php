@@ -6,8 +6,16 @@ ini_set('display_errors', 1);
 
 ob_start();
 session_start();
-require_once('includes/main/database.class.inc.php');
+require_once('config/database.php');
 $db = new database();
+require_once('src/model/User.php');
+$userModel = new src\model\User($db);
+require_once('src/controller/UserController.php');
+$userController = new src\controller\UserController($userModel);
+require_once('src/model/Map.php');
+$mapModel = new src\model\Map($db);
+require_once('src/controller/MapController.php');
+$mapController = new src\controller\MapController($mapModel);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +37,7 @@ $db = new database();
   $cssFile = (@$_GET['method'] == 'dashboard') ? 'dashboard.css' : 'signin.css';
   echo "<!-- Using CSS File: $cssFile -->";
   ?>
-  <link href="includes/style/<?php echo $cssFile; ?>" rel="stylesheet">
+  <link href="assets/css/<?php echo $cssFile; ?>" rel="stylesheet">
 
 </head>
 
@@ -50,79 +58,28 @@ $db = new database();
       header('Location: index.php');
     }
   ?>
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">DelftX World Map</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="index.php?method=logout">Logout</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
     <?php
+    require_once 'src/view/navigation_bar.php';
     // ---------------
     // DASHBOARD/ADMIN
     // ---------------
-    if ($_SESSION['delftx_id'] == 0) {
+    if ($_SESSION['delftx_id'] == 11) {
     ?>
       <div class="container-fluid">
         <div class="row">
-          <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-              <li <?php if (!isset($_GET['action'])) {
-                    echo 'class="active"';
-                  } ?>><a href="index.php?method=dashboard">Overview courses</a></li>
-              <li <?php if (isset($_GET['action']) && $_GET['action'] == 'add_course') {
-                    echo 'class="active"';
-                  } ?>><a href="index.php?method=dashboard&action=add_course">Add course</a></li>
-            </ul>
-          </div>
+          <?php require_once 'src/view/admin_sidebar.php'; ?>
           <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-
             <?php
             // ADD COURSE
             if (@$_GET['action'] == 'add_course') {
               if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $q_user = $db->query("SELECT * FROM mooc_course WHERE user = '" . addslashes($_POST['username']) . "'", __LINE__);
-                if ($db->rows($q_user) != 0) {
-            ?>
-                  <div class="alert alert-danger" role="alert"><b>User already exists!</b> Please provide another username.</div>
-                <?php
-                } else {
-                  $db->query("INSERT INTO mooc_course (course, user, password) VALUES ('" . addslashes($_POST['course']) . "', '" . addslashes($_POST['username']) . "', '" . md5(isset($_POST['password'])) . "')", __LINE__);
-                ?>
-                  <div class="alert alert-success" role="alert"><b>Well done!</b> You successfully added a new course</div>
-              <?php
-                }
+                // Initialize variables
+                $course = isset($_POST['course']) ? $_POST['course'] : null;
+                $username = isset($_POST['username']) ? $_POST['username'] : null;
+                $password = isset($_POST['password']) ? $_POST['password'] : null;
+                echo $userController->addUser($course, $username, $password);
               }
-              ?>
-              <h1 class="page-header">Add course</h1>
-
-              <form role="form" method="post" action="index.php?method=dashboard&action=add_course">
-                <div class="form-group">
-                  <label for="course">Course</label>
-                  <input type="text" class="form-control" id="course" name="course" placeholder="Enter course name" required>
-                </div>
-                <div class="form-group">
-                  <label for="username">Username</label>
-                  <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
-                </div>
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  <input type="password" class="form-control" id="password" placeholder="Password" required>
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-              </form>
-            <?php
+              require_once 'src/view/add_course_form.php';
             }
             // EDIT USER
             elseif (@$_GET['action'] == 'edit_user' & isset($_GET['user_id'])) {
@@ -143,53 +100,12 @@ $db = new database();
 
               $data_course = $db->assoc($q_course);
               ?>
-              <form role="form" method="post" action="index.php?method=dashboard&action=edit_user&user_id=<?php echo $data_course['id']; ?>">
-                <div class="form-group">
-                  <label for="user">Username</label>
-                  <input type="text" class="form-control" id="user" name="user" value="<?php echo $data_course['user']; ?>" disabled>
-                </div>
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  <input type="text" class="form-control" id="password" name="password" value="" required>
-                </div>
-                <button type="submit" class="btn btn-default">Update</button>
-              </form>
             <?php
+              require_once 'src/view/edit_user_form.php';
             }
             // OVERVIEW COURSES
             else {
-            ?>
-              <h1 class="page-header">Overview courses</h1>
-
-              <div class="table-responsive">
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Number of maps</th>
-                      <th>Admin</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                    $q_courses = $db->query("SELECT * FROM mooc_course ORDER BY id DESC");
-
-                    while ($data = $db->assoc($q_courses)) {
-                      $q_maps = $db->query("SELECT * FROM mooc_map WHERE course_id = '" . $data['id'] . "'");
-                      $number_maps = $db->rows($q_maps);
-                    ?>
-                      <tr>
-                        <td><?php echo $data['course']; ?></td>
-                        <td><?php echo $number_maps; ?></td>
-                        <td><a href="index.php?method=dashboard&action=edit_user&user_id=<?php echo $data['id'] ?>"><?php echo $data['user']; ?></a></td>
-                      </tr>
-                    <?php
-                    }
-                    ?>
-                  </tbody>
-                </table>
-              </div>
-            <?php
+              require_once 'src/view/overview_courses.php';
             }
             ?>
           </div>
@@ -205,10 +121,14 @@ $db = new database();
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li <?php if (!isset($_GET['action'])) { echo 'class="active"'; } ?>><a href="index.php?method=dashboard">Overview maps</a></li>
-            <li <?php if (isset($_GET['action']) && $_GET['action'] == 'add_map') { echo 'class="active"'; } ?>><a href="index.php?method=dashboard&action=add_map">Add map</a></li>
-          </ul>
+            <ul class="nav nav-sidebar">
+              <li <?php if (!isset($_GET['action'])) {
+                    echo 'class="active"';
+                  } ?>><a href="index.php?method=dashboard">Overview maps</a></li>
+              <li <?php if (isset($_GET['action']) && $_GET['action'] == 'add_map') {
+                    echo 'class="active"';
+                  } ?>><a href="index.php?method=dashboard&action=add_map">Add map</a></li>
+            </ul>
           </div>
           <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
@@ -387,7 +307,7 @@ $db = new database();
             $_SESSION['delftx_id'] = 0;
             header('Location: index.php?method=dashboard');
           } else {
-            $q_user = $db->query("SELECT * FROM mooc_course WHERE user = '" . addslashes($_POST['username']) . "' AND password = '" . md5($_POST['password']) . "'");
+            $q_user = $db->query("SELECT * FROM course WHERE username = '" . addslashes($_POST['username']) . "' AND password = '" . md5($_POST['password']) . "'");
             if ($db->rows($q_user) == 1) {
               $data_user = $db->assoc($q_user);
               $_SESSION['delftx_id'] = $data_user['id'];
