@@ -87,20 +87,13 @@ $mapController = new src\controller\MapController($mapModel);
               <h1 class="page-header">Edit user</h1>
               <?php
               if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $db->query("UPDATE mooc_course SET password = '" . md5($_POST['password']) . "' WHERE id = '" . addslashes($_GET['user_id']) . "'", __LINE__);
-              ?>
-                <div class="alert alert-success" role="alert"><b>Well done!</b> You successfully updated the password</div>
-              <?php
+                echo $userController->updateUser($_GET['user_id'], $_POST['password']);
               }
-              $q_course = $db->query("SELECT * FROM mooc_course WHERE id = '" . addslashes($_GET['user_id']) . "'", __LINE__);
-
-              if ($db->rows($q_course) != 1) {
+              $data_course = $userModel->findById($_GET['user_id']);
+              if ($data_course->num_rows != 1) {
                 header('Location: index.php?method=dashboard');
               }
-
-              $data_course = $db->assoc($q_course);
-              ?>
-            <?php
+              $course_data = $data_course->fetch_assoc();
               require_once 'src/view/edit_user_form.php';
             }
             // OVERVIEW COURSES

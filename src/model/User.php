@@ -14,7 +14,7 @@ class User {
         $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
-        return $stmt->get_result()->fetch_assoc();
+        return $stmt->get_result();
     }
 
     public function findByUsername($username) {

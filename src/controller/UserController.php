@@ -44,7 +44,7 @@ class UserController {
     public function getAllCourses() {
         $result = $this->userModel->fetchAllCourses();
         $courses = [];
-        while ($row = mysqli_fetch_assoc($result)) {  // Directly use mysqli_fetch_assoc
+        while ($row = mysqli_fetch_assoc($result)) {
             $courses[] = $row;
         }
         return $courses;
