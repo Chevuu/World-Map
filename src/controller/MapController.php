@@ -33,5 +33,16 @@ class MapController {
     public function updateMap($mapId, $name, $editable, $visible) {
         return $this->mapModel->updateMap($mapId, $name, $editable, $visible);
     }
+
+    
+
+    public function getOrCreateMap($course_code, $course_run, $editable, $visible) {
+        $map = $this->mapModel->findByCourseCodeAndRun($course_code, $course_run);
+        if ($map) {
+            return $map['id'];
+        } else {
+            return $this->mapModel->insert($course_code, $course_run, $editable, $visible);
+        }
+    }
 }
 ?>

@@ -76,8 +76,8 @@ $user_id_sanitized = htmlspecialchars($user_id_sanitized, ENT_QUOTES, 'UTF-8', f
 // Now you can check if the action is 'show' and if the required parameters are set
 if ($_GET['action'] == 'show' and !empty($course_id_sanitized) and isset($map_id_sanitized) and isset($user_id_sanitized)) {
     // Use the sanitized $course_id_sanitized variable in your queries
-    $q_map = $db->query("SELECT * FROM mooc_map WHERE id = '" . addslashes($map_id_sanitized) . "' AND course_id = '" . $course_id_sanitized . "'", __LINE__);
-    $q_maps = $db->query("SELECT * FROM mooc_map WHERE course_id = '" . $course_id_sanitized . "' AND visible = 1", __LINE__);
+    $q_map = $db->query("SELECT * FROM map WHERE id = '" . addslashes($map_id_sanitized) . "' AND course_code = '" . $course_id_sanitized . "'", __LINE__);
+    $q_maps = $db->query("SELECT * FROM map WHERE course_code = '" . $course_id_sanitized . "' AND visible = 1", __LINE__);
     if ($db->rows($q_map) == 0) {
         die('Bad request');
     }
@@ -85,7 +85,7 @@ if ($_GET['action'] == 'show' and !empty($course_id_sanitized) and isset($map_id
     <select style="margin-bottom: 10px; min-width: 550px; display: none;" aria-label="Select map" onchange="if(this.value){ window.location.href=this.value; }">
         <?php
         while ($data_map = $db->assoc($q_maps)) {
-            echo '<option' . (($map_id_sanitized == $data_map['id']) ? ' selected="selected"' : '') . ' value="map.php?action=show&course_id=' . $data_map['course_id'] . '&map_id=' . $data_map['id'] . '&user_id=' . addslashes(htmlspecialchars($user_id_sanitized)) . '&lang=' . addslashes(htmlspecialchars($_GET['lang'])) . '">' . $data_map['name'] . $data_map['editable'] . '</option>';
+            echo '<option' . (($map_id_sanitized == $data_map['id']) ? ' selected="selected"' : '') . ' value="map.php?action=show&course_code=' . $data_map['course_code'] . '&map_id=' . $data_map['id'] . '&user_id=' . addslashes(htmlspecialchars($user_id_sanitized)) . '&lang=' . addslashes(htmlspecialchars($_GET['lang'])) . '">' . $data_map['map_name'] . $data_map['editable'] . '</option>';
         }
         ?>
     </select>
@@ -102,7 +102,7 @@ if ($_GET['action'] == 'show' and !empty($course_id_sanitized) and isset($map_id
     $q_map_entry_2 = $db->query("SELECT * FROM mooc_map_entry WHERE map_id = '" . addslashes($map_id_sanitized) . "' AND edx_user_id = '" . addslashes($user_id_sanitized) . "'", __LINE__);
 
     $data_map_2 = $db->assoc($q_map);
-    
+
     $data_map_entry_2 = array();
 
     if ($db->rows($q_map_entry_2) != 0) {
@@ -212,7 +212,7 @@ if ($_GET['action'] == 'show' and !empty($course_id_sanitized) and isset($map_id
 //////////////////////////////////////////
 //Delete function which is called on submit or resubmit
 elseif ($_GET['action'] == 'editdelete' and isset($map_id_sanitized) and isset($user_id_sanitized)) {
-    $q_map = $db->query("SELECT * FROM mooc_map WHERE id = '" . addslashes($map_id_sanitized) . "'", __LINE__);
+    $q_map = $db->query("SELECT * FROM map WHERE id = '" . addslashes($map_id_sanitized) . "'", __LINE__);
     if ($db->rows($q_map) != 1) {
         die('Bad request');
     }
@@ -237,7 +237,7 @@ elseif ($_GET['action'] == 'editdelete' and isset($map_id_sanitized) and isset($
 
 //Delete function that is called on delete entry button click
 elseif ($_GET['action'] == 'delete' and isset($map_id_sanitized) and isset($user_id_sanitized) and isset($_GET['id'])) {
-    $q_map = $db->query("SELECT * FROM mooc_map WHERE id = '" . addslashes($map_id_sanitized) . "'", __LINE__);
+    $q_map = $db->query("SELECT * FROM map WHERE id = '" . addslashes($map_id_sanitized) . "'", __LINE__);
     if ($db->rows($q_map) != 1) {
         die('Bad request');
     }
@@ -261,7 +261,7 @@ elseif ($_GET['action'] == 'delete' and isset($map_id_sanitized) and isset($user
 // INSERT
 //////////////////////////////////////////
 elseif ($_GET['action'] == 'insert' and isset($map_id_sanitized) and isset($user_id_sanitized)) {
-    $q_map = $db->query("SELECT * FROM mooc_map WHERE id = '" . addslashes($map_id_sanitized) . "'", __LINE__);
+    $q_map = $db->query("SELECT * FROM map WHERE id = '" . addslashes($map_id_sanitized) . "'", __LINE__);
     if ($db->rows($q_map) != 1) {
         die('Bad request');
     }

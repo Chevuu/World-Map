@@ -26,7 +26,3 @@
         </tbody>
     </table>
 </div>
-<h4 class="page-header">Embed World Map</h4>
-<p>All world maps should be embedded separately and thus the HTML to embed a map can be found on the detail screen of the world map itself. </p>
-<!-- TODO: Uncomment -->
-<!-- <pre style="display:none;"><iframe style="border: none;" src="https://delftxdev.tudelft.nl/map/map.php?action=show&amp;course_id=<?php echo addslashes($_SESSION['delftx_id']) ?>&amp;map_id=<?php echo $first_id; ?>&amp;user_id=%%USER_ID%%" height="615" width="100%"></iframe></pre> -->

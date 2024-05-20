@@ -39,10 +39,5 @@ if (!$data_map) {
 </form>
 
 <br />
-<h4 class="page-header">Embed World Map</h4>
-<p>Copy this code into a raw html component in edX to embed the world map in your course.</p>
-<!-- <pre><iframe style="border: none;" src="https://delftxdev.tudelft.nl/map/map.php?action=show&amp;course_id=<?php echo addslashes($_SESSION['delftx_id']) ?>&amp;map_id=<?php echo $data_map['id']; ?>&amp;user_id=%%USER_ID%%" height="615" width="100%"></iframe></pre> -->
-
-<br />
 <h4 class="page-header">Export</h4>
 <p><a href="json.php?map_id=<?php echo $data_map['id']; ?>">Download json<a></p>
